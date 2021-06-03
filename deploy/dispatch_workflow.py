@@ -14,7 +14,7 @@ def make_jwt_token(private_key):
     jwt_payload = {
         "iat": int(time.time()),
         "exp": int(time.time() + 600),
-        "iss": 112193,
+        "iss": os.environ["APP_ID"],
     }
     print("Getting app JWT")
     jwt_token = jwt.encode(jwt_payload, private_key, algorithm="RS256").decode()
