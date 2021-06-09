@@ -92,16 +92,13 @@ def main():
     private_key = os.environ["APP_PRIVATE_KEY"]
     repo = os.environ["TARGET_REPO"]
     target_workflow = os.environ["TARGET_WORKFLOW"]
-    staking_widget_image_tag = os.environ.get("STACKING_WIDGET_IMAGE_TAG")
-    solana_staking_widget_image_tag = os.environ.get("SOLANA_STACKING_WIDGET_IMAGE_TAG")
+    target = os.environ.get("TARGET")
     jwt_token = make_jwt_token(private_key)
     auth = prep_auth(jwt_token, get_installation_id(jwt_token))
     job_inputs = dict()
-    if staking_widget_image_tag:
-        job_inputs["staking_widget_image_tag"] = staking_widget_image_tag
+    if target:
+        job_inputs["target"] = target
 
-    if solana_staking_widget_image_tag:
-        job_inputs["solana_staking_widget_image_tag"] = solana_staking_widget_image_tag
     print(f"Dispatching workflow {target_workflow} with inputs {job_inputs}")
     res = requests.post(
         f"https://api.github.com/repos/{repo}/actions/workflows/{target_workflow}/dispatches",
